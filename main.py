@@ -10,7 +10,7 @@ from detection import analyze_frame as detect_frame, end_candidate, SCORE_DEDUCT
 import sqlite3
 import json
 
-
+# ---------------- Directories ----------------
 BASE_DIR = os.path.dirname(__file__)
 LOG_DIR = os.path.join(BASE_DIR, "logs")
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
@@ -18,6 +18,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 DB_PATH = os.path.join(LOG_DIR, "events.db")
 
+# ---------------- FastAPI App ----------------
 app = FastAPI()
 
 app.add_middleware(
@@ -28,9 +29,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+# ---------------- Serve frontend static files ----------------
+app.mount("/frontend", StaticFiles(directory=FRONTEND_DIR), name="frontend")
 
-# ---------------- Serve frontend ----------------
 @app.get("/")
 async def serve_index():
     return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
@@ -76,12 +77,9 @@ def api_add_candidate(name: str = Form(...)):
         "end_time": row[2]
     }
 
+# ---------------- Log events ----------------
 @app.post("/log-events")
 def api_log_events(candidate_id: int = Form(...), events: str = Form(...)):
-    """
-    Receives events from frontend (like cell phone/book/laptop detection)
-    and logs them into the database using logger_utils.log_event
-    """
     try:
         events_list = json.loads(events)  # frontend should send JSON array as string
         for event in events_list:
@@ -97,10 +95,8 @@ async def analyze_frame_api(file: UploadFile = File(...), candidate_id: int = Fo
     npimg = np.frombuffer(contents, np.uint8)
     frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-    # Use detection.py exactly
     results = detect_frame(frame, candidate_id)
 
-    # Update integrity score in DB
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
@@ -128,4 +124,4 @@ def api_generate_report(candidate_id: int):
 # ---------------- Run server ----------------
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
