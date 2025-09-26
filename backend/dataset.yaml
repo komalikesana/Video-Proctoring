@@ -1,0 +1,17 @@
+# custom_dataset.yaml
+path: D:/video-proctoring/backend/datasets/coco128  # dataset root
+train: images/train2017
+val: images/train2017
+
+# Number of classes
+nc: 7  
+
+# Class names
+names:
+  0: cell_phone
+  1: book
+  2: laptop
+  3: keyboard
+  4: remote
+  5: mouse
+  6: tv

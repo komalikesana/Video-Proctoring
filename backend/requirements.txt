@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+opencv-python
+torch
+torchvision
+numpy
+pydantic
+sqlalchemy
+ultralytics
+python-multipart
+pandas
+reportlab
+tqdm
+seaborn

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Interview Detection</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
+
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .video-container { position: relative; margin-top: 20px; }
+    #status { margin-top: 10px; font-weight: bold; color: #333; background: #f0f0f0; padding: 5px 10px; border-radius: 5px; }
+    video { border: 2px solid #333; border-radius: 5px; }
+    input, select, button { margin: 5px; padding: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Candidate Interview</h2>
+
+  <div>
+    <label for="candidateSelect">Select Candidate:</label>
+    <select id="candidateSelect">
+      <option value="">-- Select --</option>
+    </select>
+    <input type="text" id="newCandidate" placeholder="Add new candidate">
+    <button id="addCandidateBtn">Add Candidate</button>
+    <button id="endSessionBtn">End Session</button>
+    <button id="generateReportBtn">Generate Report</button>
+  </div>
+
+  <p><strong>Integrity Score:</strong> <span id="integrityScore">-</span></p>
+
+  <div class="video-container">
+    <video id="video" autoplay playsinline width="640" height="480"></video>
+    <p id="status">Select a candidate to start detection.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
