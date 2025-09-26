@@ -11,10 +11,6 @@ env/
 # ---------------- Backend models ----------------
 backend/models/yolo_model.pt
 
-# ---------------- Logs ----------------
-logs/events.db
-logs/*.log
-
 # ---------------- Frontend ----------------
 frontend/node_modules/
 frontend/dist/
